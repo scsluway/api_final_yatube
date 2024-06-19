@@ -9,7 +9,7 @@ from posts import models
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = models.Post.objects.all()
-    permission_classes = (permissions.OnlyOnwerDestroyUpdate,)
+    permission_classes = (permissions.OnlyAuthorDestroyUpdate,)
     serializer_class = serializers.PostSerializer
     pagination_class = LimitOffsetPagination
 
