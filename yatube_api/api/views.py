@@ -1,14 +1,17 @@
 # TODO:  Напишите свой вариант
-from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
+from rest_framework.pagination import LimitOffsetPagination
 
-from api import serializers
+from api import permissions, serializers
 from posts import models
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = models.Post.objects.all()
+    permission_classes = (permissions.OnlyOnwerDestroyUpdate,)
     serializer_class = serializers.PostSerializer
+    pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
