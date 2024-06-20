@@ -1,7 +1,9 @@
 # TODO:  Напишите свой вариант
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 
 from api import permissions, serializers
 from posts import models
@@ -17,7 +19,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Group.objects.all()
     serializer_class = serializers.GroupSerializer
 
@@ -28,12 +30,13 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
-    queryset = models.Follow.objects.all()
     serializer_class = serializers.FollowSerializer
+    filter_backends = (SearchFilter,)
+    permission_classes = (IsAuthenticated,)
+    search_fields = ('following__username', )
+
+    def get_queryset(self):
+        return self.request.user.follows
 
     def perform_create(self, serializer):
-        following = get_object_or_404(
-            models.Follow.objects,
-            username=serializer.instance.following
-        )
-        serializer.save(user=self.request.user, following=following)
+        serializer.save(user=self.request.user)
