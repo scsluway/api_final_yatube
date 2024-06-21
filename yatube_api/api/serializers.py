@@ -21,6 +21,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Comment
+        read_only_fields = ('post',)
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -43,6 +44,13 @@ class FollowSerializer(serializers.ModelSerializer):
                 fields=('user', 'following')
             )
         ]
+
+    def validate(self, attrs):
+        if self.context.get('request').user == attrs['following']:
+            raise serializers.ValidationError(
+                'Нельзя подписываться на самомго себя!'
+            )
+        return attrs
 
 
 class GroupSerializer(serializers.ModelSerializer):

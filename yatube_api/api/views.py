@@ -25,8 +25,17 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
+    permission_classes = (permissions.OnlyAuthorDestroyUpdate,)
+
+    def get_post(self):
+        return get_object_or_404(models.Post, pk=self.kwargs.get('post_id'))
+
+    def get_queryset(self):
+        return self.get_post().comments
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user, post=self.get_post())
 
 
 class FollowViewSet(viewsets.ModelViewSet):
