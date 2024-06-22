@@ -11,7 +11,7 @@
 
  Спецификация API: Доступна в файле `api_final_yatube\yatube_api\static\redoc.yaml`;
 
- Автор проекта: [scsluway](https://github.com/scluway).
+ Автор проекта: [scluway](https://github.com/scsluway).
 
 ## Инструкция к установке:
 
