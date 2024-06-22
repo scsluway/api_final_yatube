@@ -7,7 +7,7 @@
 
 ## Информация о проекте:
 
- Стек технологий: Python 3.9.13, Django, Django REST Framework, Simple JWT;
+ Стек технологий: **Python** 3.9.13, **Django**, **Django REST Framework**, **Simple JWT**;
 
  Спецификация API: Доступна в файле `api_final_yatube\yatube_api\static\redoc.yaml`;
 
@@ -114,6 +114,7 @@ python3 manage.py runserver
 ### Комментарии:
  
      /api/v1/posts/{post_id}/comments/:
+     
   **GET**: Получение списка комментариев к посту.
   
   **POST**: Добавление нового комментария к посту.
