@@ -15,7 +15,6 @@ v1_router.register('follow', views.FollowViewSet, basename='follow')
 
 v1_urls = [
     path('', include(v1_router.urls)),
-    path('', include('djoser.urls')),
     path('', include('djoser.urls.jwt')),
 ]
 
